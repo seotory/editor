@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="generator" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>seotory editer</title>
+
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+	<!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
+	<!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script>
+	window.onload = function () {
+		console.log( "iframe onload start." );
+		console.log(self);
+		if (self.initButtons)
+			initButtons();
+		document.designMode = 'On'; 		// Moz, Op, Saf
+		document.body.contentEditable = true;	// Op, IE, Saf
+		/*	document.execCommand("styleWithCSS",false,false); */ // makes Moz use tags instead of style
+	}
+	function inBetween(command,bool,value) {
+	/*	var enabled = document.queryCommandSupported(command);
+		if (!enabled) {
+			alert('Command not available');
+			return false;
+		}
+	*/
+		var returnValue = document.execCommand(command,bool,value);
+		if (returnValue) return returnValue;
+	}
+	</script>
+</head>
+<body>
+
+<div>
+	<h1>editer input</h1>
+</div>
+<div id="seotory-editer-area">
+	<div id="seotory-editer-tool">
+	</div>
+	<div id="seotory-editer-input">
+		<textarea id="seotory-editer-textarea">IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js</textarea>
+	</div>
+	<div>
+		test
+
+	</div>
+	<input type="button" onclick="document.execCommand('bold', null, false);" value="B" />
+	<input type="button" onclick="document.execCommand('italic', null, false);" value="I" />
+	<input type="button" onclick="document.execCommand('underline', null, false);" value="U">
+
+	http://www.quirksmode.org/dom/execCommand.html
+</div>
+</body>
+</html>

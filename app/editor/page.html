@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="generator" content="" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Document</title>
+
+	<!-- fontawesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
+    <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+    .editor {
+    	width: 600px;
+    	height: 500px;
+    	border: 1px #eee solid;
+    }
+    .editor iframe {
+    	width: 100%;
+    	height: 450px;
+    }
+    </style>
+</head>
+<body>
+    <div class="editor">
+    <!--
+		<iframe src="./editer.html" name="editer"></iframe>
+    -->
+		<div class="button-set">
+			<input data- type="button" onclick="document.editer.document.execCommand('bold', null, false);" value="B" />
+			<input type="button" onclick="document.editer.document.execCommand('italic', null, false);" value="I" />
+			<input type="button" onclick="document.editer.document.execCommand('underline', null, false);" value="U">
+		</div>
+	</div>
+	<hr />
+	<p>http://www.quirksmode.org/dom/execCommand.html</p>
+    <script>
+    (function(w, document){
+
+        var config = {}
+        var buttons = {
+            bold : {},
+            italic : {},
+            underline : {}
+        }
+
+        var target_name = 'editor';
+        var $editers = findEl({
+            class : target_name
+        });
+        console.log( $editers );
+
+        for ( var i=0 ; i<$editers.length ; i++ ) {
+            var $one = $editers[i];
+            console.log($one);
+            var $iframe = injectIframe( i, $one );
+            var iframe_name = $iframe.name;
+        }
+
+        function injectIframe ( idx, $one ) {
+            var $iframe = mkEl('iframe', {
+                src : './editor.html',
+                name :'editor_'+idx 
+            });
+            $one.appendChild($iframe);
+            return $iframe;
+        }
+
+        function setButton(  ) {
+
+        }
+
+        function editor ( el ) {
+
+            return {
+                init : function ( obj ) {}
+
+            }
+        }
+
+        /**
+        UTILE FUNCTION.
+        */
+        function mkEl ( name, obj ) {
+            var $el = document.createElement(name);
+            if ( obj ) {
+                for ( p in obj ) {
+                    $el[p] = obj[p];
+                }
+            }
+            return $el;
+        }
+        function findEl ( obj ) {
+            if ( ! obj || typeof obj !== 'object' ) {
+                return [];
+            } else {
+                var target = obj.target ? obj.target : document;
+                var elList = [];
+                function addEl ( elAry ) {
+                    for ( var i=0 ; i<elAry.length ; i++ ) {
+                        elList.push( elAry[i] );
+                    }
+                }
+                for ( p in obj ) {
+                    if ( p === 'class' ) 
+                        addEl( target.getElementsByClassName(obj[p]) );
+                    else if ( p === 'id' )
+                        addEl( target.getElementById(obj[p]) );
+                    else if ( p === 'tag' )
+                        addEl( target.getElementsByTagName(obj[p]) )
+                    else if ( p === 'name' )
+                        addEl( target.getElementsByName(obj[p]) );
+                }
+                return elList;
+            }
+        }
+
+        var $util = {}
+        $util.findEl = findEl;
+        $util.mkEl = mkEl;
+        window.$util = $util;
+
+    })(window, document)
+    </script>
+</body>
+</html>
